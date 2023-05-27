@@ -1,6 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { Component } from "react";
-import { HtmlPortalNode, createHtmlPortalNode } from "react-reverse-portal";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "./store";
 
 const WIDGET_IDS = [1, 2, 3];
 
@@ -12,7 +11,6 @@ const initialState = {
       [id]: {
         id: id,
         active: false,
-        portalNode: createHtmlPortalNode(),
       },
     }),
     {} as Record<
@@ -20,7 +18,6 @@ const initialState = {
       {
         id: number;
         active: boolean;
-        portalNode: HtmlPortalNode<Component>;
       }
     >
   ),
@@ -30,13 +27,37 @@ const widgetSlice = createSlice({
   name: "widget",
   initialState: initialState,
   reducers: {
-    activateWidget: (state, action) => {
-      const widget = state.widgets[action.payload];
-      widget.active = true;
+    addWidget: (state) => {
+      const maxWidgetId = Math.max(...Object.keys(state.widgets).map(Number));
+      const newWidgetId = maxWidgetId + 1;
+      state.widgets[newWidgetId] = {
+        id: newWidgetId,
+        active: true,
+      };
+      state.currentWidgetId = newWidgetId;
     },
-    deactivateWidget: (state, action) => {
+    toggleWidget: (state, action) => {
       const widget = state.widgets[action.payload];
-      widget.active = false;
+      widget.active = !widget.active;
+      // If the widget is being activated, set it as the current widget
+      if (widget.active) {
+        state.currentWidgetId = widget.id;
+      } else {
+        // If the widget is being deactivated
+        // Skip if the widget is not the current widget
+        if (state.currentWidgetId !== widget.id) {
+          return;
+        }
+        // Set the current widget to the first active widget
+        for (const widget of Object.values(state.widgets)) {
+          if (widget.active) {
+            state.currentWidgetId = widget.id;
+            return;
+          }
+        }
+        // If there are no active widgets, set the current widget to null
+        state.currentWidgetId = null;
+      }
     },
     setCurrentWidgetId: (state, action) => {
       state.currentWidgetId = action.payload;
@@ -44,7 +65,21 @@ const widgetSlice = createSlice({
   },
 });
 
-export const { activateWidget, deactivateWidget, setCurrentWidgetId } =
+export const { addWidget, toggleWidget, setCurrentWidgetId } =
   widgetSlice.actions;
 
 export default widgetSlice.reducer;
+
+const _selectWidgets = (state: RootState) => state.widget.widgets;
+
+export const selectWidgets = createSelector([_selectWidgets], (widgets) =>
+  Object.values(widgets)
+);
+
+export const selectActiveWidgets = createSelector([selectWidgets], (widgets) =>
+  widgets.filter((widget) => widget.active)
+);
+
+export const selectWidgetIds = createSelector([_selectWidgets], (widgets) =>
+  Object.keys(widgets).map(Number)
+);

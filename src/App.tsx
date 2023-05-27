@@ -1,4 +1,5 @@
-import { Component, useState } from "react";
+import { useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   HtmlPortalNode,
   InPortal,
@@ -7,48 +8,50 @@ import {
 } from "react-reverse-portal";
 import "./App.css";
 import Widget from "./Widget";
-
-const WIDGET_IDS = [1, 2, 3];
+import { AppDispatch, RootState } from "./store/store";
+import {
+  addWidget,
+  selectActiveWidgets,
+  selectWidgetIds,
+  selectWidgets,
+  setCurrentWidgetId,
+  toggleWidget,
+} from "./store/widget.slice";
 
 function App() {
-  const [currentWidgetId, setCurrentWidgetId] = useState<number | null>(null);
-  const [widgets, setWidgets] = useState<
-    Record<
-      number,
-      {
-        id: number;
-        active: boolean;
-        portalNode: HtmlPortalNode<Component>;
-      }
-    >
-  >(
-    WIDGET_IDS.reduce(
-      (acc, id) => ({
-        ...acc,
-        [id]: {
-          id: id,
-          active: false,
-          portalNode: createHtmlPortalNode(),
-        },
-      }),
-      {}
-    )
+  const currentWidgetId = useSelector(
+    (state: RootState) => state.widget.currentWidgetId
   );
+  const widgets = useSelector(selectWidgets);
+  const activeWidgets = useSelector(selectActiveWidgets);
+  const widgetIds = useSelector(selectWidgetIds);
+
+  const dispatch = useDispatch<AppDispatch>();
+  const portalNodes = useMemo(() => {
+    return widgetIds.reduce((acc, cur) => {
+      const portalNode = createHtmlPortalNode();
+      acc[cur] = portalNode;
+      return acc;
+    }, {} as Record<number, HtmlPortalNode>);
+  }, [widgetIds]);
+
+  const handleAddWidget = () => {
+    dispatch(addWidget());
+  };
 
   const handleWidgetBtnClick = (id: number) => () => {
-    const newWidgets = { ...widgets };
-    newWidgets[id].active = !newWidgets[id].active;
-    setWidgets(newWidgets);
+    dispatch(toggleWidget(id));
   };
 
   const handleWidgetTabClick = (id: number) => () => {
-    setCurrentWidgetId(id);
+    dispatch(setCurrentWidgetId(id));
   };
 
   return (
     <>
+      <button onClick={handleAddWidget}>Add Widget</button>
       <div className="widget-button-list">
-        {Object.values(widgets).map((widget) => {
+        {widgets.map((widget) => {
           return (
             <button
               key={`widget-btn-${widget.id}`}
@@ -63,33 +66,28 @@ function App() {
         })}
       </div>
       <div className="widget.tab-list">
-        {Object.values(widgets)
-          .filter((widget) => widget.active)
-          .map((widget) => (
-            <button
-              key={`widget-tab-${widget.id}`}
-              onClick={handleWidgetTabClick(widget.id)}
-              style={{
-                backgroundColor:
-                  currentWidgetId === widget.id ? "green" : "red",
-              }}
-            >
-              Widget {widget.id}
-            </button>
-          ))}
+        {activeWidgets.map((widget) => (
+          <button
+            key={`widget-tab-${widget.id}`}
+            onClick={handleWidgetTabClick(widget.id)}
+            style={{
+              backgroundColor: currentWidgetId === widget.id ? "green" : "red",
+            }}
+          >
+            Widget {widget.id}
+          </button>
+        ))}
       </div>
       <div className="widget-container">
-        {currentWidgetId ? (
-          <OutPortal node={widgets[currentWidgetId]?.portalNode} />
+        {currentWidgetId && portalNodes[currentWidgetId] ? (
+          <OutPortal node={portalNodes[currentWidgetId]} />
         ) : null}
       </div>
-      {Object.values(widgets)
-        .filter((widget) => widget.active)
-        .map((widget) => (
-          <InPortal key={`widget-${widget.id}`} node={widget.portalNode}>
-            <Widget widgetId={widget.id} />
-          </InPortal>
-        ))}
+      {activeWidgets.map((widget) => (
+        <InPortal key={`portal-${widget.id}`} node={portalNodes[widget.id]}>
+          <Widget widgetId={widget.id} />
+        </InPortal>
+      ))}
     </>
   );
 }
