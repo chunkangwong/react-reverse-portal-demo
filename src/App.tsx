@@ -8,8 +8,8 @@ import WidgetContainer from "./WidgetContainer";
 import WidgetTabs from "./WidgetTabs";
 import Widgets from "./Widgets";
 import portalNodesContext, { PortalNodes } from "./portalNodesContext";
-import { selectWidgetIds } from "./store/widget.slice";
 import { RootState } from "./store/store";
+import { selectWidgetIds } from "./store/widget.slice";
 
 function App() {
   const widgetIds = useSelector(selectWidgetIds);
@@ -23,8 +23,19 @@ function App() {
     }, {} as PortalNodes);
   }, [widgetIds]);
 
+  const resultPortalNodes = useMemo(() => {
+    return results.reduce((acc, cur) => {
+      const resultId = `${cur.widgetId}-${cur.widgetId}`;
+      const portalNode = createHtmlPortalNode();
+      acc[resultId] = portalNode;
+      return acc;
+    }, {} as PortalNodes);
+  }, [results]);
+
   return (
-    <portalNodesContext.Provider value={widgetPortalNodes}>
+    <portalNodesContext.Provider
+      value={{ widgetPortalNodes, resultPortalNodes }}
+    >
       <AddWidgetButton />
       <WidgetButtons />
       <WidgetTabs />

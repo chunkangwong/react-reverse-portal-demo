@@ -12,8 +12,10 @@ const WidgetContainer = () => {
 
   return (
     <div className="widget-container">
-      {currentWidgetId && portalNodes && portalNodes[currentWidgetId] ? (
-        <OutPortal node={portalNodes[currentWidgetId]} />
+      {currentWidgetId &&
+      portalNodes &&
+      portalNodes.widgetPortalNodes[currentWidgetId] ? (
+        <OutPortal node={portalNodes.widgetPortalNodes[currentWidgetId]} />
       ) : null}
     </div>
   );

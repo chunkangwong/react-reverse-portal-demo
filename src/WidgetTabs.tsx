@@ -9,7 +9,7 @@ const WidgetTabs = () => {
   );
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleWidgetTabClick = (id: number) => () => {
+  const handleWidgetTabClick = (id: string) => () => {
     dispatch(setCurrentWidgetId(id));
   };
 

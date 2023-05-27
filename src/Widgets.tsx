@@ -13,7 +13,10 @@ const Widgets = () => {
     <>
       {portalNodes &&
         activeWidgets.map((widget) => (
-          <InPortal key={`portal-${widget.id}`} node={portalNodes[widget.id]}>
+          <InPortal
+            key={`portal-${widget.id}`}
+            node={portalNodes.widgetPortalNodes[widget.id]}
+          >
             <Widget widgetId={widget.id} />
           </InPortal>
         ))}

@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export type Result = {
-  widgetId: number;
+  widgetId: string;
   title: string;
 };
 
@@ -9,7 +9,7 @@ const resultSlice = createSlice({
   name: "result",
   initialState: {
     results: [] as Result[],
-    currentResultId: null as number | null,
+    currentResult: null as Result | null,
   },
   reducers: {
     addResult: (state, action: PayloadAction<Result>) => {
@@ -22,6 +22,7 @@ const resultSlice = createSlice({
         return;
       }
       state.results.push(action.payload);
+      state.currentResult = action.payload;
     },
   },
 });

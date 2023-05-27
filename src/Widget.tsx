@@ -3,7 +3,7 @@ import { AppDispatch } from "./store/store";
 import { addResult } from "./store/result.slice";
 
 interface WidgetProps {
-  widgetId: number;
+  widgetId: string;
 }
 
 const Widget = ({ widgetId }: WidgetProps) => {

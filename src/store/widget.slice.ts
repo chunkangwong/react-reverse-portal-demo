@@ -1,10 +1,10 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 
-const WIDGET_IDS = [1, 2, 3];
+const WIDGET_IDS = ["1", "2", "3"];
 
 const initialState = {
-  currentWidgetId: null as number | null,
+  currentWidgetId: null as string | null,
   widgets: WIDGET_IDS.reduce(
     (acc, id) => ({
       ...acc,
@@ -14,9 +14,9 @@ const initialState = {
       },
     }),
     {} as Record<
-      number,
+      string,
       {
-        id: number;
+        id: string;
         active: boolean;
       }
     >
@@ -31,10 +31,10 @@ const widgetSlice = createSlice({
       const maxWidgetId = Math.max(...Object.keys(state.widgets).map(Number));
       const newWidgetId = maxWidgetId + 1;
       state.widgets[newWidgetId] = {
-        id: newWidgetId,
+        id: `${newWidgetId}`,
         active: true,
       };
-      state.currentWidgetId = newWidgetId;
+      state.currentWidgetId = `${newWidgetId}`;
     },
     toggleWidget: (state, action) => {
       const widget = state.widgets[action.payload];

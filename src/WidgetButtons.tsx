@@ -6,7 +6,7 @@ const WidgetButtons = () => {
   const dispatch = useDispatch<AppDispatch>();
   const widgets = useSelector(selectWidgets);
 
-  const handleWidgetBtnClick = (id: number) => () => {
+  const handleWidgetBtnClick = (id: string) => () => {
     dispatch(toggleWidget(id));
   };
 
