@@ -1,13 +1,13 @@
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { createHtmlPortalNode } from "react-reverse-portal";
-import AddWidgetButton from "./AddWidgetButton";
 import "./App.css";
-import WidgetButtons from "./WidgetButtons";
-import WidgetContainer from "./WidgetContainer";
-import WidgetTabs from "./WidgetTabs";
-import Widgets from "./Widgets";
-import portalNodesContext, { PortalNodes } from "./portalNodesContext";
+import AddWidgetButton from "./components/AddWidgetButton";
+import WidgetButtons from "./components/WidgetButtons";
+import WidgetContainer from "./components/WidgetContainer";
+import WidgetTabs from "./components/WidgetTabs";
+import Widgets from "./components/Widgets";
+import portalNodesContext, { PortalNodes } from "./context/portalNodesContext";
 import { RootState } from "./store/store";
 import { selectWidgetIds } from "./store/widget.slice";
 

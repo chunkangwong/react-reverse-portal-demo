@@ -2,8 +2,8 @@ import { useContext } from "react";
 import { useSelector } from "react-redux";
 import { InPortal } from "react-reverse-portal";
 import Widget from "./Widget";
-import portalNodesContext from "./portalNodesContext";
-import { selectActiveWidgets } from "./store/widget.slice";
+import portalNodesContext from "../context/portalNodesContext";
+import { selectActiveWidgets } from "../store/widget.slice";
 
 const Widgets = () => {
   const activeWidgets = useSelector(selectActiveWidgets);

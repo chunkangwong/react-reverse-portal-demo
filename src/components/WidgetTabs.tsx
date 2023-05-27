@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "./store/store";
-import { selectActiveWidgets, setCurrentWidgetId } from "./store/widget.slice";
+import { AppDispatch, RootState } from "../store/store";
+import { selectActiveWidgets, setCurrentWidgetId } from "../store/widget.slice";
 
 const WidgetTabs = () => {
   const activeWidgets = useSelector(selectActiveWidgets);

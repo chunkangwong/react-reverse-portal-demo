@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "./store/store";
-import { selectWidgets, toggleWidget } from "./store/widget.slice";
+import { AppDispatch } from "../store/store";
+import { selectWidgets, toggleWidget } from "../store/widget.slice";
 
 const WidgetButtons = () => {
   const dispatch = useDispatch<AppDispatch>();

@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "./store/store";
-import { addResult } from "./store/result.slice";
+import { AppDispatch } from "../store/store";
+import { addResult } from "../store/result.slice";
 
 interface WidgetProps {
   widgetId: string;

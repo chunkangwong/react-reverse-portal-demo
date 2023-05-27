@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "./store/store";
-import { addWidget } from "./store/widget.slice";
+import { AppDispatch } from "../store/store";
+import { addWidget } from "../store/widget.slice";
 
 const AddWidgetButton = () => {
   const dispatch = useDispatch<AppDispatch>();
