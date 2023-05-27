@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
+import resultReducer from "./result.slice";
 import widgetReducer from "./widget.slice";
 
 const store = configureStore({
   reducer: {
     widget: widgetReducer,
+    result: resultReducer,
   },
 });
 

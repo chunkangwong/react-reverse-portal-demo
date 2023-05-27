@@ -9,11 +9,13 @@ import WidgetTabs from "./WidgetTabs";
 import Widgets from "./Widgets";
 import portalNodesContext, { PortalNodes } from "./portalNodesContext";
 import { selectWidgetIds } from "./store/widget.slice";
+import { RootState } from "./store/store";
 
 function App() {
   const widgetIds = useSelector(selectWidgetIds);
+  const results = useSelector((state: RootState) => state.result.results);
 
-  const portalNodes = useMemo(() => {
+  const widgetPortalNodes = useMemo(() => {
     return widgetIds.reduce((acc, cur) => {
       const portalNode = createHtmlPortalNode();
       acc[cur] = portalNode;
@@ -22,12 +24,16 @@ function App() {
   }, [widgetIds]);
 
   return (
-    <portalNodesContext.Provider value={portalNodes}>
+    <portalNodesContext.Provider value={widgetPortalNodes}>
       <AddWidgetButton />
       <WidgetButtons />
       <WidgetTabs />
       <WidgetContainer />
       <Widgets />
+      {results.map((result) => {
+        const { widgetId, title } = result;
+        return <button key={`result-${widgetId}`}>{title}</button>;
+      })}
     </portalNodesContext.Provider>
   );
 }
