@@ -1,3 +1,6 @@
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { selectWidgets, toggleWidget } from "../store/widget.slice";
@@ -11,21 +14,19 @@ const WidgetButtons = () => {
   };
 
   return (
-    <div className="widget-buttons">
+    <List className="widget-buttons">
       {widgets.map((widget) => {
         return (
-          <button
+          <ListItemButton
             key={`widget-btn-${widget.id}`}
             onClick={handleWidgetBtnClick(widget.id)}
-            style={{
-              backgroundColor: widget.active ? "green" : "red",
-            }}
+            selected={widget.active}
           >
-            Widget {widget.id}
-          </button>
+            <ListItemText primary={`Widget ${widget.id}`} />
+          </ListItemButton>
         );
       })}
-    </div>
+    </List>
   );
 };
 
