@@ -10,6 +10,8 @@ import Widgets from "./components/Widgets";
 import portalNodesContext, { PortalNodes } from "./context/portalNodesContext";
 import { RootState } from "./store/store";
 import { selectWidgetIds } from "./store/widget.slice";
+import ResultTabs from "./components/ResultTabs";
+import ResultContainer from "./components/ResultContainer";
 
 function App() {
   const widgetIds = useSelector(selectWidgetIds);
@@ -41,10 +43,8 @@ function App() {
       <WidgetTabs />
       <WidgetContainer />
       <Widgets />
-      {results.map((result) => {
-        const { widgetId, title } = result;
-        return <button key={`result-${widgetId}`}>{title}</button>;
-      })}
+      <ResultTabs />
+      <ResultContainer />
     </portalNodesContext.Provider>
   );
 }
