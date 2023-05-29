@@ -27,7 +27,7 @@ function App() {
 
   const resultPortalNodes = useMemo(() => {
     return results.reduce((acc, cur) => {
-      const resultId = `${cur.widgetId}-${cur.widgetId}`;
+      const resultId = `${cur.widgetId}-${cur.title}`;
       const portalNode = createHtmlPortalNode();
       acc[resultId] = portalNode;
       return acc;
@@ -38,13 +38,15 @@ function App() {
     <portalNodesContext.Provider
       value={{ widgetPortalNodes, resultPortalNodes }}
     >
-      <AddWidgetButton />
-      <WidgetButtons />
-      <WidgetTabs />
-      <WidgetContainer />
-      <Widgets />
-      <ResultTabs />
-      <ResultContainer />
+      <div className="app">
+        <AddWidgetButton />
+        <WidgetButtons />
+        <WidgetTabs />
+        <WidgetContainer />
+        <Widgets />
+        <ResultTabs />
+        <ResultContainer />
+      </div>
     </portalNodesContext.Provider>
   );
 }

@@ -14,7 +14,7 @@ const WidgetTabs = () => {
   };
 
   return (
-    <div className="widget.tab-list">
+    <div className="widget-tabs">
       {activeWidgets.map((widget) => (
         <button
           key={`widget-tab-${widget.id}`}

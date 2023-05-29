@@ -13,7 +13,13 @@ const resultSlice = createSlice({
     currentResultId: null as string | null,
   },
   reducers: {
-    addResult: (state, action: PayloadAction<Result>) => {
+    addResult: (
+      state,
+      action: PayloadAction<{
+        widgetId: string;
+        title: string;
+      }>
+    ) => {
       const { widgetId, title } = action.payload;
       const newResultId = `${widgetId}-${title}`;
       if (

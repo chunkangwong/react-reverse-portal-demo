@@ -40,3 +40,34 @@
 .read-the-docs {
   color: #888;
 }
+
+.app {
+  display: grid;
+  grid-template-areas: "header header header" "left widget-tab widget-tab" "left body body" "left result-tab result-tab" "left result result";
+}
+
+.add-widget-btn {
+  grid-area: header;
+}
+
+.widget-buttons {
+  grid-area: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.widget-tabs {
+  grid-area: widget-tab;
+}
+
+.widget-container {
+  grid-area: body;
+}
+
+.result-tabs {
+  grid-area: result-tab;
+}
+
+.result-container {
+  grid-area: result;
+}

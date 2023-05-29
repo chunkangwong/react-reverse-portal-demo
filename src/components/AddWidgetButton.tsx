@@ -8,7 +8,11 @@ const AddWidgetButton = () => {
   const handleAddWidget = () => {
     dispatch(addWidget());
   };
-  return <button onClick={handleAddWidget}>Add Widget</button>;
+  return (
+    <button className="add-widget-btn" onClick={handleAddWidget}>
+      Add Widget
+    </button>
+  );
 };
 
 export default AddWidgetButton;

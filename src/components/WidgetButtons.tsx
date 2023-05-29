@@ -11,7 +11,7 @@ const WidgetButtons = () => {
   };
 
   return (
-    <div className="widget-button-list">
+    <div className="widget-buttons">
       {widgets.map((widget) => {
         return (
           <button

@@ -13,7 +13,7 @@ const ResultTabs = () => {
   };
 
   return (
-    <>
+    <div className="result-tabs">
       {results.map((result) => {
         const { widgetId, title, id } = result;
         return (
@@ -28,7 +28,7 @@ const ResultTabs = () => {
           </button>
         );
       })}
-    </>
+    </div>
   );
 };
 
