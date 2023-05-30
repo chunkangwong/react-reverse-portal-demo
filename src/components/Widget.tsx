@@ -1,3 +1,4 @@
+import { DataGrid } from "@mui/x-data-grid";
 import { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import { InPortal } from "react-reverse-portal";
@@ -42,7 +43,19 @@ const Widget = ({ widgetId }: WidgetProps) => {
         >
           <div>
             <h1>Widget {widgetId}</h1>
-            <p>Count: {count}</p>
+            <DataGrid
+              rows={new Array(count).fill(0).map((_, i) => ({
+                id: i,
+                col1: `col1-${i}`,
+                col2: `col2-${i}`,
+                col3: `col3-${i}`,
+              }))}
+              columns={[
+                { field: "col1", headerName: "Column 1", width: 150 },
+                { field: "col2", headerName: "Column 2", width: 150 },
+                { field: "col3", headerName: "Column 3", width: 150 },
+              ]}
+            />
           </div>
         </InPortal>
       ) : null}
