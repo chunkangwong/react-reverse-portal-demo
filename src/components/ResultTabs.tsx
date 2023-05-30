@@ -1,26 +1,28 @@
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentResultId } from "../store/result.slice";
+import { setResultTabValue } from "../store/result.slice";
 import { AppDispatch, RootState } from "../store/store";
 
 const ResultTabs = () => {
-  const results = useSelector((state: RootState) => state.result.results);
+  const { results, resultTabValue } = useSelector(
+    (state: RootState) => state.result
+  );
   const dispatch = useDispatch<AppDispatch>();
-
-  const [tabValue, setTabValue] = useState(0);
 
   const handleTabChange = (
     _: React.SyntheticEvent<Element, Event>,
     newValue: number
   ) => {
-    setTabValue(newValue);
-    dispatch(setCurrentResultId(results[newValue].id));
+    dispatch(setResultTabValue(newValue));
   };
 
   return (
-    <Tabs className="result-tabs" value={tabValue} onChange={handleTabChange}>
+    <Tabs
+      className="result-tabs"
+      value={resultTabValue}
+      onChange={handleTabChange}
+    >
       {results.map((result) => {
         const { widgetId, title } = result;
         return <Tab key={`result-${widgetId}`} label={title} />;

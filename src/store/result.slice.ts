@@ -11,7 +11,7 @@ const resultSlice = createSlice({
   name: "result",
   initialState: {
     results: [] as Result[],
-    currentResultId: null as string | null,
+    resultTabValue: 0,
   },
   reducers: {
     addResult: (
@@ -31,15 +31,15 @@ const resultSlice = createSlice({
         return;
       }
       state.results.push({ ...action.payload, id: newResultId });
-      state.currentResultId = newResultId;
+      state.resultTabValue = state.results.length - 1;
     },
-    setCurrentResultId: (state, action: PayloadAction<string>) => {
-      state.currentResultId = action.payload;
+    setResultTabValue: (state, action: PayloadAction<number>) => {
+      state.resultTabValue = action.payload;
     },
   },
 });
 
-export const { addResult, setCurrentResultId } = resultSlice.actions;
+export const { addResult, setResultTabValue } = resultSlice.actions;
 
 export default resultSlice.reducer;
 
@@ -47,4 +47,9 @@ const selectResults = (state: RootState) => state.result.results;
 
 export const selectResultIds = createSelector(selectResults, (results) =>
   results.map((result) => result.id)
+);
+
+export const selectCurrentResultId = createSelector(
+  [selectResults, (state: RootState) => state.result.resultTabValue],
+  (results, resultTabValue) => results[resultTabValue]?.id
 );
