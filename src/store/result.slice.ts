@@ -1,4 +1,5 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSelector, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "./store";
 
 export type Result = {
   widgetId: string;
@@ -41,3 +42,9 @@ const resultSlice = createSlice({
 export const { addResult, setCurrentResultId } = resultSlice.actions;
 
 export default resultSlice.reducer;
+
+const selectResults = (state: RootState) => state.result.results;
+
+export const selectResultIds = createSelector(selectResults, (results) =>
+  results.map((result) => result.id)
+);

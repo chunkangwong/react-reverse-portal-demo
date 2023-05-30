@@ -3,19 +3,19 @@ import { useSelector } from "react-redux";
 import { createHtmlPortalNode } from "react-reverse-portal";
 import "./App.css";
 import AddWidgetButton from "./components/AddWidgetButton";
+import ResultContainer from "./components/ResultContainer";
+import ResultTabs from "./components/ResultTabs";
 import WidgetButtons from "./components/WidgetButtons";
 import WidgetContainer from "./components/WidgetContainer";
 import WidgetTabs from "./components/WidgetTabs";
 import Widgets from "./components/Widgets";
 import portalNodesContext, { PortalNodes } from "./context/portalNodesContext";
-import { RootState } from "./store/store";
+import { selectResultIds } from "./store/result.slice";
 import { selectWidgetIds } from "./store/widget.slice";
-import ResultTabs from "./components/ResultTabs";
-import ResultContainer from "./components/ResultContainer";
 
 function App() {
   const widgetIds = useSelector(selectWidgetIds);
-  const results = useSelector((state: RootState) => state.result.results);
+  const resultIds = useSelector(selectResultIds);
 
   const widgetPortalNodes = useMemo(() => {
     return widgetIds.reduce((acc, cur) => {
@@ -26,13 +26,12 @@ function App() {
   }, [widgetIds]);
 
   const resultPortalNodes = useMemo(() => {
-    return results.reduce((acc, cur) => {
-      const resultId = `${cur.widgetId}-${cur.title}`;
+    return resultIds.reduce((acc, cur) => {
       const portalNode = createHtmlPortalNode();
-      acc[resultId] = portalNode;
+      acc[cur] = portalNode;
       return acc;
     }, {} as PortalNodes);
-  }, [results]);
+  }, [resultIds]);
 
   return (
     <portalNodesContext.Provider
